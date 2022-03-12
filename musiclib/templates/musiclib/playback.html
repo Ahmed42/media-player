@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+  <title>Playback</title>
+  <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'musiclib/style.css' %}">
+    <script src="{% static 'musiclib/script.js' %}" defer></script>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="container trackstree">
+	      <h1>Tracks Tree</h1>
+        <ul>
+          {% for artist, albums in songs_dict.items %}
+          <li class="artist">{{ artist.name }}
+            <ul>
+              {% for album, songs in albums.items %}
+                <li class="album">{{album.name}}
+		<ul>
+			  {% for song in songs %}
+			  <li> 
+				  <button class="track" 
+					  data-trackurl={{ song.song_file.url }}
+					  data-trackid={{ song.id }}>
+					  {{ song.name|default:song.song_file }}
+				  </button>
+
+				  <button class="addtoqueue">Add to queue</button>
+			  </li>
+			  {% endfor %}
+		</ul>
+		</li> 
+              {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+	</ul>
+
+      </div>
+
+      <div class="container queue">
+	      <h1>Queue</h1>
+	      <ul>
+	      </ul>
+      </div>
+      
+      <div class="container playlists">
+	      <h1>Playlists</h1>
+        <ul>
+          {% for playlist in playlists%}
+          <li class="playlist">{{ playlist.name}} </li>
+          {% endfor %}
+        </ul>
+      </div>
+      
+      <div class="container trackplaying"
+	   data-queueindex="-1">
+	      <h1>Track Playing</h1>
+	      <h2 class="trackplaying"></h2>
+
+	      <audio controls>
+	      </audio>
+      </div>
+    </div>
+  </body>
+
+
+</html>

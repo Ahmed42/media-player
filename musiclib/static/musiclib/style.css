@@ -1,0 +1,123 @@
+body {
+  background: #eee8d5;
+ }
+
+body, .wrapper {
+	min-height: 100vh;
+}
+
+body, button {
+	font-family: "Courier New", Courier, monospace;
+	font-weight: 600;
+}
+
+ h1 {
+	 font-size: 20px
+ }
+
+.wrapper {
+	display: grid;
+	grid-template-columns: 1.5fr 2fr 1fr;
+	grid-template-rows: 1fr 5fr 2fr;
+	grid-gap: 10px;
+	padding: 2.5px;
+	/*height: 100%;*/
+	/*min-height: 100vh;*/
+}
+
+.container {
+	background: #fdf6e3;
+	padding: 10px;
+
+	/*border: 3px solid #1166AA;*/
+	border-radius: 5px;
+}
+
+.trackstree {
+	grid-column: 1;
+	grid-row: 1 / 4;
+}
+
+.queue{
+	grid-column: 2;
+	grid-row: 1 / 3;
+}
+
+.playlists {
+	grid-column: 3;
+	grid-row: 1 / 3;
+}
+
+.trackplaying {
+	grid-column: 2 / 4;
+	grid-row: 3;
+}
+
+ul { 
+	list-style-type: none; 
+}
+
+.artist {
+	color: #cb4b16; /* */
+}
+
+.album {
+	color: #268bd2;
+}
+
+.track {
+	color: #859900;
+}
+
+.playlist {
+	color: #cb4b16;  
+}
+
+.album::before, .track::before {
+	content: "|-";
+}
+
+ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+li {
+	margin: 1px;
+	position: relative;
+	border: solid 2px;
+}
+
+button.track, button.remove, button.addtoqueue {
+	border: none;
+	background: none;
+	font-size: 15px;
+}
+
+.playing {
+	border: solid 4px;
+	border-color: #006030;
+}
+/*
+button.track {
+	font-family: "Courier New", Courier, monospace;
+	font-weight: 600;
+	font-size: 15px;
+	background: none;
+	border: none;
+}*/
+
+button.addtoqueue, button.remove {
+	position: absolute;
+	right: 5px;
+}
+
+audio {
+	display: block;
+	width: 100%;
+	margin:10px;
+}
+
+.trackplaying {
+	font-size: 18px;
+}
