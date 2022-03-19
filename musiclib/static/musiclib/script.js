@@ -12,6 +12,7 @@ var currently_playing = null;
 
 function addTrackToQueue(track_button) {
 	new_queue_track = document.createElement("li");
+	new_queue_track.classList.add("tracklistitem");
 	
 	// Reuse the track button
 	new_track_button = track_button.cloneNode(true);
