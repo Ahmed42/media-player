@@ -9,8 +9,9 @@
 
   <body>
     <div class="wrapper">
-      <div class="container trackstree">
-	      <h1>Tracks Tree</h1>
+      <div class="container trackstree artistiew">
+      <h1>Tracks Tree</h1>
+      <button class="switch">Switch to directory view</button>
         <ul>
           {% for artist, albums in songs_dict.items %}
           <li class="artist">{{ artist.name }}
@@ -36,7 +37,11 @@
           </li>
           {% endfor %}
 	</ul>
+      </div>
 
+      <div class="container trackstree dirview">
+	      <h1>Tracks Tree (directory view)</h1>
+	      <button class="switch">Switch to album/artist view</button>
       </div>
 
       <div class="container queue">

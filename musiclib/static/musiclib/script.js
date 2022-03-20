@@ -6,9 +6,26 @@ const tracks_queue = document.querySelector('.queue ul');
 
 const audio_player = document.querySelector('audio');
 
-const trackpplaying = document.querySelector('.trackplaying');
+const track_playing_title = document.querySelector('h2.trackplaying');
 
 var currently_playing = null;
+
+function playTrack(track_element) {
+	if(currently_playing) {
+		currently_playing.classList.remove("playing");
+	}
+	currently_playing = track_element;
+	currently_playing.classList.add("playing");
+
+	track_button = currently_playing.querySelector(".track");
+	track_url = track_button.getAttribute("data-trackurl");
+	track_name = track_button.innerHTML
+
+	track_playing_title.innerHTML = track_name;
+	audio_player.src = track_url;
+	audio_player.play()
+	// TODO add artist and album
+}
 
 function addTrackToQueue(track_button) {
 	new_queue_track = document.createElement("li");
@@ -18,7 +35,7 @@ function addTrackToQueue(track_button) {
 	new_track_button = track_button.cloneNode(true);
 
 	new_track_button.addEventListener("click", event => {
-		if(currently_playing) {
+		/*if(currently_playing) {
 			currently_playing.classList.remove("playing");
 		}
 		currently_playing = event.target.parentElement;
@@ -26,7 +43,9 @@ function addTrackToQueue(track_button) {
 
 		track_url = event.target.getAttribute("data-trackurl");
 		audio_player.src = track_url;
-		audio_player.play();
+		audio_player.play();*/
+		track_element = event.target.parentElement;
+		playTrack(track_element);
 	});
 
 	remove_button = document.createElement("button");
@@ -48,20 +67,21 @@ track_buttons.forEach(track_button => track_button.addEventListener(
 	'click', 
 	event => {
 		tracks_queue.textContent = "";
-		
-		if(currently_playing) {
+		track_element = addTrackToQueue(track_button);
+
+		playTrack(track_element);
+		/*if(currently_playing) {
 			currently_playing.classList.remove("playing");
 		}
 
-		currently_playing = addTrackToQueue(track_button);
+		currently_playing = to_play;
 
 		track_url = event.target.getAttribute("data-trackurl");
 
-		//currently_playing = event.target.parentElement;
 		currently_playing.classList.add("playing");
 		
 		audio_player.src = track_url;
-		audio_player.play();
+		audio_player.play();*/
 	}));
 
 
@@ -78,7 +98,8 @@ addtoqueue_buttons.forEach(addtoqueue_button => addtoqueue_button.addEventListen
 // When the player finishes a track, go to the next. 
 audio_player.addEventListener('ended', event => {
 	next_track = currently_playing.nextSibling;
-	if(next_track) {
+	playTrack(next_track);
+	/*if(next_track) {
 		currently_playing.classList.remove("playing");
 		next_track.classList.add("playing");
 		currently_playing = next_track;
@@ -86,7 +107,6 @@ audio_player.addEventListener('ended', event => {
 		track_url = currently_playing.querySelector(".track").getAttribute("data-trackurl");
 		event.target.src = track_url;
 		event.target.play();
-	//	tracks_queue.querySelector();
-	}
+	}*/
 });
 

@@ -37,6 +37,10 @@ body, button {
 	grid-column: 1;
 	grid-row: 1 / 4;
 }
+/*
+.dirview {
+	background: #ff0000;
+}*/
 
 .queue{
 	grid-column: 2;
@@ -94,12 +98,13 @@ li {
 	grid-gap: 2px;
 }
 
-button.track, button.remove, button.addtoqueue {
+button.track, button.remove, button.addtoqueue, button.switch {
 	border: none;
 	background: none;
 	font-size: 15px;
 	text-align: start;
 }
+
 
 .playing {
 	border: solid 4px;
