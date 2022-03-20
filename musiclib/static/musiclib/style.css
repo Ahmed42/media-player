@@ -37,10 +37,10 @@ body, button {
 	grid-column: 1;
 	grid-row: 1 / 4;
 }
-/*
+
 .dirview {
-	background: #ff0000;
-}*/
+	visibility: hidden;
+}
 
 .queue{
 	grid-column: 2;

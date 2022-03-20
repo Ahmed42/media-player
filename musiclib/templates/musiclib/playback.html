@@ -4,12 +4,15 @@
   <head>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'musiclib/style.css' %}">
+    <script type="text/javascript">
+	    var songs_by_dirs_url = "{% url 'songs_by_dir' %}";
+    </script>
     <script src="{% static 'musiclib/script.js' %}" defer></script>
   </head>
 
   <body>
     <div class="wrapper">
-      <div class="container trackstree artistiew">
+      <div class="container trackstree artistview">
       <h1>Tracks Tree</h1>
       <button class="switch">Switch to directory view</button>
         <ul>
@@ -42,6 +45,8 @@
       <div class="container trackstree dirview">
 	      <h1>Tracks Tree (directory view)</h1>
 	      <button class="switch">Switch to album/artist view</button>
+	      <ul>
+	      </ul>
       </div>
 
       <div class="container queue">

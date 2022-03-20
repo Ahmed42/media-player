@@ -35,15 +35,6 @@ function addTrackToQueue(track_button) {
 	new_track_button = track_button.cloneNode(true);
 
 	new_track_button.addEventListener("click", event => {
-		/*if(currently_playing) {
-			currently_playing.classList.remove("playing");
-		}
-		currently_playing = event.target.parentElement;
-		currently_playing.classList.add("playing");
-
-		track_url = event.target.getAttribute("data-trackurl");
-		audio_player.src = track_url;
-		audio_player.play();*/
 		track_element = event.target.parentElement;
 		playTrack(track_element);
 	});
@@ -70,18 +61,6 @@ track_buttons.forEach(track_button => track_button.addEventListener(
 		track_element = addTrackToQueue(track_button);
 
 		playTrack(track_element);
-		/*if(currently_playing) {
-			currently_playing.classList.remove("playing");
-		}
-
-		currently_playing = to_play;
-
-		track_url = event.target.getAttribute("data-trackurl");
-
-		currently_playing.classList.add("playing");
-		
-		audio_player.src = track_url;
-		audio_player.play();*/
 	}));
 
 
@@ -99,14 +78,79 @@ addtoqueue_buttons.forEach(addtoqueue_button => addtoqueue_button.addEventListen
 audio_player.addEventListener('ended', event => {
 	next_track = currently_playing.nextSibling;
 	playTrack(next_track);
-	/*if(next_track) {
-		currently_playing.classList.remove("playing");
-		next_track.classList.add("playing");
-		currently_playing = next_track;
-
-		track_url = currently_playing.querySelector(".track").getAttribute("data-trackurl");
-		event.target.src = track_url;
-		event.target.play();
-	}*/
 });
+
+/////////////////////////
+// Switch between album/artist view and directory view
+function switchToDirView() {
+	dir_view = document.querySelector(".dirview");
+	artist_view = document.querySelector(".artistview");
+
+	dir_view.style.visibility = "visible";
+	artist_view.style.visibility = "hidden";
+}
+
+function switchToArtistAlbumView() {
+	dir_view = document.querySelector(".dirview");
+	artist_view = document.querySelector(".artistview");
+
+	dir_view.style.visibility = "hidden";
+	artist_view.style.visibility = "visible";
+}
+
+switch_to_dir_btn = document.querySelector(".artistview").querySelector(".switch");
+switch_to_artist_btn = document.querySelector(".dirview").querySelector(".switch");
+
+switch_to_dir_btn.addEventListener("click", event => switchToDirView());
+switch_to_artist_btn.addEventListener("click", event => switchToArtistAlbumView());
+
+
+var http_request = new XMLHttpRequest();
+http_request.onreadystatechange = fetchAndPopulateDirView;
+http_request.open('GET', songs_by_dirs_url);
+http_request.setRequestHeader('Content-Type', 'application/json');
+http_request.send();
+
+function populateDirView(dir_name, tree, list_element) {
+	if (tree['file_name'] == undefined) {
+		// Display dir_name directory list item
+		//console.log(list_element + "DIR: " + dir_name);
+		dir_list_item = document.createElement("li");
+		dir_list_item.classList.add("dirlistitem");
+		dir_name_p = document.createElement("p");
+		dir_name_p.innerHTML = dir_name;
+		dir_list_item.appendChild(dir_name_p);
+
+		list_element.appendChild(dir_list_item);
+		// Create new list element for children
+		children_list_element = document.createElement("ul");
+		dir_list_item.appendChild(children_list_element);
+
+		//children_list_element = list_element + "\t"
+		for (child in tree) {
+			populateDirView(child, tree[child], children_list_element);
+		}
+
+	} else {
+		// Display track list item
+		//console.log(list_element + "TRACK: " + tree['file_name']);
+		track_list_item = document.createElement("li");
+		track_list_item.classList.add("tracklistitem");
+		track_list_item.innerHTML = dir_name;
+
+		list_element.appendChild(track_list_item);
+	}
+}
+
+function fetchAndPopulateDirView() {
+	if(http_request.readyState == XMLHttpRequest.DONE) { 
+		response = JSON.parse(http_request.responseText);
+		dir_view_list = document.querySelector(".dirview").querySelector("ul");
+		console.log("hi there");
+
+		common_root = Object.keys(response)[0]
+
+		populateDirView(common_root, response[common_root], dir_view_list);
+	}
+}
 
