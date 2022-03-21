@@ -53,25 +53,32 @@ function addTrackToQueue(track_button) {
 	return new_queue_track;
 }
 
-// When a track is clicked, clear queue, add track to queue, and  set up the player.
-track_buttons.forEach(track_button => track_button.addEventListener(
-	'click', 
-	event => {
+function trackButtonHandler(track_button) {
+	return function(event) {
+		console.log("Gonna play: " + track_button.innerHTML);
 		tracks_queue.textContent = "";
 		track_element = addTrackToQueue(track_button);
 
+
 		playTrack(track_element);
-	}));
+	};
+}
+
+function addToQueueButtonHandler(addtoqueue_button, event) {
+	return function(event) {
+		track_button = addtoqueue_button.parentElement.querySelector(".track");
+		addTrackToQueue(track_button);
+	};
+}
+
+// When a track is clicked, clear queue, add track to queue, and  set up the player.
+track_buttons.forEach(track_button => track_button.addEventListener(
+	'click', trackButtonHandler(track_button)));
 
 
 // Add the track to the currently playing queue
 addtoqueue_buttons.forEach(addtoqueue_button => addtoqueue_button.addEventListener(
-	'click',
-	event => {
-		track_button = addtoqueue_button.parentElement.querySelector(".track");
-		addTrackToQueue(track_button); 
-	}
-));
+	'click', addToQueueButtonHandler(addtoqueue_button)));
 
 
 // When the player finishes a track, go to the next. 
@@ -117,6 +124,7 @@ function populateDirView(dir_name, tree, list_element) {
 		//console.log(list_element + "DIR: " + dir_name);
 		dir_list_item = document.createElement("li");
 		dir_list_item.classList.add("dirlistitem");
+
 		dir_name_p = document.createElement("p");
 		dir_name_p.innerHTML = dir_name;
 		dir_list_item.appendChild(dir_name_p);
@@ -132,11 +140,33 @@ function populateDirView(dir_name, tree, list_element) {
 		}
 
 	} else {
+		file_name = tree['file_name'];
+		track_name = tree['track_name'];
+		track_url = tree['track_url'];
+		//album = tree['album'];
+		//artist = tree['artist'];
+		name = track_name === null? file_name : track_name; 
 		// Display track list item
 		//console.log(list_element + "TRACK: " + tree['file_name']);
 		track_list_item = document.createElement("li");
 		track_list_item.classList.add("tracklistitem");
-		track_list_item.innerHTML = dir_name;
+		//track_list_item.innerHTML = dir_name;
+		track_button = document.createElement("button");
+		track_button.classList.add("track");
+		track_button.dataset.trackurl = track_url;
+		track_button.innerHTML = name;
+		console.log(track_button.innerHTML);
+		track_button.addEventListener("click", 
+				trackButtonHandler(track_button));
+
+		add_to_queue_button = document.createElement("button");
+		add_to_queue_button.classList.add("addtoqueue"); 
+		add_to_queue_button.innerHTML = "Add to queue";
+		add_to_queue_button.addEventListener("click", 
+			addToQueueButtonHandler(add_to_queue_button));
+
+		track_list_item.appendChild(track_button);
+		track_list_item.appendChild(add_to_queue_button);
 
 		list_element.appendChild(track_list_item);
 	}
@@ -146,7 +176,6 @@ function fetchAndPopulateDirView() {
 	if(http_request.readyState == XMLHttpRequest.DONE) { 
 		response = JSON.parse(http_request.responseText);
 		dir_view_list = document.querySelector(".dirview").querySelector("ul");
-		console.log("hi there");
 
 		common_root = Object.keys(response)[0]
 
