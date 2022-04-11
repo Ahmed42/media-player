@@ -23,7 +23,8 @@ function playTrack(track_element) {
 
 	track_playing_title.innerHTML = track_name;
 	audio_player.src = track_url;
-	audio_player.play()
+	audio_player.load();
+	audio_player.play();
 	// TODO add artist and album
 }
 
