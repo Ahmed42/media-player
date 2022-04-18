@@ -1,5 +1,5 @@
 body {
-  background: #eee8d5;
+  background: #9fb5b3;
  }
 
 body, .wrapper {
@@ -26,7 +26,7 @@ body, button {
 }
 
 .container {
-	background: #fdf6e3;
+	background: #b6dbd8;
 	padding: 10px;
 
 	/*border: 3px solid #1166AA;*/
@@ -71,7 +71,7 @@ ul {
 }
 
 .track {
-	color: #859900;
+	color: #114466;
 }
 
 .playlist {
@@ -90,7 +90,7 @@ ul {
 li {
 	margin: 1px;
 	position: relative;
-	border: solid 2px;
+	/*border: solid 2px;*/
 }
 
 .tracklistitem {
