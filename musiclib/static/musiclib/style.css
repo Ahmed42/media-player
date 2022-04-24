@@ -97,6 +97,7 @@ li {
 	display: grid;
 	grid-template-columns: 3fr 1fr;
 	grid-gap: 2px;
+	border-bottom: solid 1px #004070;
 }
 
 button.track, button.remove, button.addtoqueue, button.switch {
